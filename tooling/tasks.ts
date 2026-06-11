@@ -61,6 +61,19 @@ export const tasks = {
     input: taskInput,
   },
 
+  "task:vanilla:build": {
+    command: "vp build",
+    cwd: "playgrounds/vanilla",
+    input: taskInput,
+    output: [workspacePattern("playgrounds/vanilla/dist/**")],
+  },
+
+  "task:vanilla:dev": {
+    command: "vp dev",
+    cwd: "playgrounds/vanilla",
+    cache: false,
+  },
+
   // Formatting mutates source files, so it should always run instead of using a
   // cached result.
   "task:workspace:fmt": {
@@ -81,9 +94,10 @@ export const tasks = {
 
   "task:ready": {
     command: [
+      "vp run task:library:pack",
       "vp run task:workspace:check",
       "vp run task:library:test",
-      "vp run task:library:pack",
+      "vp run task:vanilla:build",
     ],
   },
 } satisfies Tasks;
