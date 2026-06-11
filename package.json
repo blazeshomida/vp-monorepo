@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build:vanilla": "vp run task:vanilla:build",
+    "changeset": "changeset",
     "check": "vp run task:workspace:check",
     "dev:library": "vp run task:library:dev",
     "dev:vanilla": "vp run task:vanilla:dev",
@@ -12,9 +13,13 @@
     "lint": "vp run task:workspace:lint",
     "pack": "vp run task:library:pack",
     "ready": "vp run task:ready",
-    "test": "vp run task:library:test"
+    "release": "vp run task:ready && changeset publish",
+    "test": "vp run task:library:test",
+    "version": "changeset version"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "catalog:",
+    "@changesets/cli": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-plus": "catalog:",
