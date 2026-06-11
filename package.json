@@ -3,7 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "check": "vp run task:workspace:check",
+    "fmt": "vp run task:workspace:fmt",
+    "lint": "vp run task:workspace:lint",
+    "ready": "vp run task:ready"
+  },
   "devDependencies": {
     "typescript": "catalog:",
     "vite-plus": "catalog:"
