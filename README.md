@@ -60,7 +60,7 @@ Use this repository as a GitHub template for new Vite+ monorepo projects.
 You can also create a project from this template with Vite+:
 
 ```sh
-vp create github:blazeshomida/vp-monorepo --directory my-project
+vp create github:blazeshomida/vp-monorepo
 ```
 
 After creating a new repository or project from the template, follow the setup checklist above and run:
