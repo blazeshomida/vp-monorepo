@@ -1,0 +1,9 @@
+packages:
+  - "packages/*"
+  - "playgrounds/*"
+
+catalogMode: prefer
+
+catalog:
+  typescript: ^6.0.3
+  vite-plus: ^0.1.24
