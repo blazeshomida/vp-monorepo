@@ -10,12 +10,24 @@ import {
 type Tasks = NonNullable<NonNullable<UserConfig["run"]>["tasks"]>;
 type TaskInput = { auto: true } | string;
 
+interface WorkspacePattern {
+  pattern: string;
+  base: "workspace";
+}
+
 function ignoredDirectoryInput(pattern: string): string[] {
   return [`!**/${pattern}`, `!**/${pattern}/**`];
 }
 
 function ignoredFileInput(pattern: string): string {
   return `!**/${pattern}`;
+}
+
+function workspacePattern(pattern: string): WorkspacePattern {
+  return {
+    pattern,
+    base: "workspace",
+  };
 }
 
 // Automatic input tracking keeps task cache keys accurate without manually
@@ -30,6 +42,25 @@ const taskInput = [
 ] satisfies TaskInput[];
 
 export const tasks = {
+  "task:library:dev": {
+    command: "vp pack --watch",
+    cwd: "packages/library",
+    cache: false,
+  },
+
+  "task:library:pack": {
+    command: "vp pack",
+    cwd: "packages/library",
+    input: taskInput,
+    output: [workspacePattern("packages/library/dist/**")],
+  },
+
+  "task:library:test": {
+    command: "vp test",
+    cwd: "packages/library",
+    input: taskInput,
+  },
+
   // Formatting mutates source files, so it should always run instead of using a
   // cached result.
   "task:workspace:fmt": {
@@ -49,6 +80,10 @@ export const tasks = {
   },
 
   "task:ready": {
-    command: ["vp run task:workspace:check"],
+    command: [
+      "vp run task:workspace:check",
+      "vp run task:library:test",
+      "vp run task:library:pack",
+    ],
   },
 } satisfies Tasks;

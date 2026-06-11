@@ -1,0 +1,29 @@
+{
+  "name": "@scope/library",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A starter TypeScript library package for the Vite+ monorepo template.",
+  "keywords": [],
+  "homepage": "https://github.com/blazeshomida/vp-monorepo#readme",
+  "bugs": {
+    "url": "https://github.com/blazeshomida/vp-monorepo/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blazeshomida/vp-monorepo.git",
+    "directory": "packages/library"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

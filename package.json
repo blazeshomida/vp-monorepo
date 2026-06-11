@@ -5,13 +5,18 @@
   "type": "module",
   "scripts": {
     "check": "vp run task:workspace:check",
+    "dev:library": "vp run task:library:dev",
     "fmt": "vp run task:workspace:fmt",
     "lint": "vp run task:workspace:lint",
-    "ready": "vp run task:ready"
+    "pack": "vp run task:library:pack",
+    "ready": "vp run task:ready",
+    "test": "vp run task:library:test"
   },
   "devDependencies": {
     "typescript": "catalog:",
-    "vite-plus": "catalog:"
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
   },
   "engines": {
     "node": ">=22.12.0"
