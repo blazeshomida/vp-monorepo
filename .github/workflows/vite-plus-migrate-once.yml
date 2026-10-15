@@ -1,0 +1,60 @@
+name: One-time Vite+ 1.2 migration
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.head_ref == 'chore/vite-plus-1-2-migration'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout migration branch
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Install Vite+ 1.2
+        uses: voidzero-dev/setup-vp@v1.21.2
+        with:
+          version: "1.2.0"
+          node-version: "24"
+          run-install: false
+
+      - name: Run official migration
+        id: migrate
+        run: vp migrate --no-interactive
+
+      - name: Regenerate lockfile
+        id: install
+        continue-on-error: true
+        run: vp install
+
+      - name: Validate migrated template
+        id: validate
+        continue-on-error: true
+        if: steps.install.outcome == 'success'
+        run: vp run ready
+
+      - name: Commit migration and remove one-time workflow
+        if: steps.migrate.outcome == 'success'
+        run: |
+          rm .github/workflows/vite-plus-migrate-once.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Migration did not produce changes"
+            exit 1
+          fi
+          git commit -m "chore: migrate Vite+ to 1.2.0"
+          git push origin "HEAD:${{ github.head_ref }}"
+
+      - name: Enforce installation and validation
+        if: steps.install.outcome == 'failure' || steps.validate.outcome == 'failure'
+        run: exit 1
