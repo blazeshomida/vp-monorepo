@@ -51,21 +51,27 @@ export const tasks = {
   "task:library:pack": {
     command: "vp pack",
     cwd: "packages/library",
-    input: taskInput,
-    output: [workspacePattern("packages/library/dist/**")],
+    cache: {
+      input: taskInput,
+      output: [workspacePattern("packages/library/dist/**")],
+    },
   },
 
   "task:library:test": {
     command: "vp test",
     cwd: "packages/library",
-    input: taskInput,
+    cache: {
+      input: taskInput,
+    },
   },
 
   "task:vanilla:build": {
     command: "vp build",
     cwd: "playgrounds/vanilla",
-    input: taskInput,
-    output: [workspacePattern("playgrounds/vanilla/dist/**")],
+    cache: {
+      input: taskInput,
+      output: [workspacePattern("playgrounds/vanilla/dist/**")],
+    },
   },
 
   "task:vanilla:dev": {
@@ -83,13 +89,17 @@ export const tasks = {
 
   "task:workspace:lint": {
     command: "vp lint",
-    input: taskInput,
+    cache: {
+      input: taskInput,
+    },
   },
 
   // Vite+ check runs formatting, linting, and TypeScript checks together.
   "task:workspace:check": {
     command: "vp check",
-    input: taskInput,
+    cache: {
+      input: taskInput,
+    },
   },
 
   "task:ready": {
