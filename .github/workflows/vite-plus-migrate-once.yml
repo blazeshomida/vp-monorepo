@@ -2,7 +2,7 @@ name: One-time Vite+ 1.2 migration
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
 
 permissions:
   contents: write
@@ -41,13 +41,12 @@ jobs:
         if: steps.install.outcome == 'success'
         run: vp run ready
 
-      - name: Commit migration and remove one-time workflow
+      - name: Commit non-workflow migration files
         if: steps.migrate.outcome == 'success'
         run: |
-          rm .github/workflows/vite-plus-migrate-once.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
+          git add -A -- . ':!.github/workflows'
           if git diff --cached --quiet; then
             echo "Migration did not produce changes"
             exit 1
